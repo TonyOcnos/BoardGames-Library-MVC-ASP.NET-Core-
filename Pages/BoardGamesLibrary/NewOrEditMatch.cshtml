@@ -1,0 +1,110 @@
+﻿@page
+@model NewOrEditMatchModel
+
+
+<br />
+<div class="container row p-0 m-0">
+    <div class="col-12">
+        <h2 class="text-info">Add a match</h2>
+        @if (Model.BoardGame == null)
+        {
+            <h4 class="text-info text-black-50">Creating a match...</h4>
+        }
+        else
+        {
+            <h4 class="text-info text-black-50">Create a match for @Model.BoardGame.Name</h4>
+        }
+
+    </div>
+    <div class="col-12 row border p-3 shadow">
+        <form class="col-8 offset-2" method="post">
+            @if (Model.BoardGame != null)
+            {
+                <input type="hidden" asp-for="Match.IdGameRef" value=@(Model.BoardGame.IdGame) />
+            }
+            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="@Model.BoardGame.Name">Game:</label>
+                </div>
+                <div class="col-4">
+                    @if (Model.BoardGame != null)
+                    {
+                        <p class="text-info font-weight-bold">@Model.BoardGame.Name</p>
+                    }
+                    else
+                    {
+                        <select asp-for="Match.IdGameRef" class="custom-select">
+                            @foreach (var item in Model.BoardGames)
+                            {
+                                <option value="@item.IdGame">@Html.DisplayFor(o => item.Name)</option>
+                            }
+                        </select>
+                    }
+                </div>
+                <div class="col-1">
+                    <label asp-for="@Model.Match.Date">Date:</label>
+                </div>
+                <div class="col-4 offset-1">
+                    <input asp-for="@Model.Match.Date" type="date" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4 offset-2">
+                    <label>Players:</label>
+                </div>
+                <div class="col-2">
+                    <label>Winner:</label>
+                </div>
+            </div>
+            @for (var i = 1; i < Model.BoardGame.NPlayers + 1; i++)
+            {
+                <div id="playerSelectionRow" class="form-group row">
+
+                    <div class="col-2 ">
+                        <label asp-for="PlayerAdded">Player @i:</label>
+                    </div>
+                    <div class="col-4">
+                        <input asp-for="PlayerAdded" type="text" class="form-control" />
+                    </div>
+                    <div class="col-1">
+                        <input type="checkbox" class="form-check" name="CheckedWinner" value="@i" />
+                    </div>
+                </div>
+            }
+            <div class="form-group row">
+                <div class="col-5 offset-1">
+                    <ul id="listPlayers">
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="@Model.Match.Duration">Duration:</label>
+                </div>
+                <div class="col-4">
+                    <select asp-for="@Model.Match.Duration" class="form-control">
+                        <option>< 30 min</option>
+                        <option>30 min < 60 min</option>
+                        <option>> 60 min</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row mt-4">
+                <div class="col-6">
+                    <button type="submit" class="btn btn-primary form-control">Create</button>
+                </div>
+                <div class="col-6">
+                    <a asp-page="BoardGameList" class="btn btn-danger form-control">Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/boardGameList.js"></script>
+    }

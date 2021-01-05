@@ -1,0 +1,85 @@
+﻿@page
+@model NewOrEditGameModel
+
+
+<br />
+<div class="container row p-0 m-0">
+    <div class="col-12">
+        <h2 class="text-info">Board Games List</h2>
+        <h4 class="text-info text-black-50">@(Model.BoardGame.IdGame != 0 ? "Update":"Create") a game</h4>
+    </div>
+    <div class="row border p-3 shadow">
+        <form method="post">
+            @if (Model.BoardGame.IdGame != 0)
+            {
+                <input type="hidden" asp-for="BoardGame.IdGame" />
+            }
+            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+            <div class="form-group row">
+                <div class="col-1">
+                    <label asp-for="BoardGame.Name"></label>
+                </div>
+                <div class="col-5">
+                    <input class="form-control" autofocus asp-for="BoardGame.Name" />
+                </div>
+
+                <div class="col-1">
+                    <label asp-for="BoardGame.Publisher"></label>
+                </div>
+                <div class="col-5">
+                    <input class="form-control" asp-for="BoardGame.Publisher" />
+                </div>
+
+            </div>
+            <div class="form-group row">
+                <div class="col-1">
+                    <label asp-for="BoardGame.Language"></label>
+                </div>
+                <div class="col-2">
+                    <input class="form-control" asp-for="BoardGame.Language" />
+                </div>
+                <div class="col-1">
+                    <label asp-for="BoardGame.NPlayers"></label>
+                </div>
+                <div class="col-2">
+                    <input value=1 class="form-control" asp-for="BoardGame.NPlayers" />
+                </div>
+                <div class="col-1">
+                    <label asp-for="BoardGame.Type"></label>
+                </div>
+                <div class="col-2">
+                    <select class="form-control" asp-for="BoardGame.Type">
+                        <option>Euro</option>
+                        <option>Party</option>
+                        <option>Strategy</option>
+                        <option>Cardset</option>
+                        <option>Deck-building</option>
+                        <option>Cooperative</option>
+                    </select>
+                </div>
+                <div class="col-1">
+                    <label asp-for="BoardGame.Weight"></label>
+                </div>
+                <div class="col-2">
+                    <select class="form-control" asp-for="BoardGame.Weight">
+                        <option>Light</option>
+                        <option>Medium</option>
+                        <option>Heavy</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row mt-4">
+                <div class="col-2 offset-8">
+                    <button type="submit" class="btn btn-primary form-control" >@(Model.BoardGame.IdGame != 0 ? "Update":"Create")</button>
+                </div>
+                <div class="col-2">
+                    <a asp-page="BoardGameList" class="btn btn-danger form-control">Back to list</a>
+                </div>
+            </div>
+            <div class="offset-9">
+                <span asp-validation-for="BoardGame.Name" class="text-danger"></span>
+            </div>
+        </form>
+    </div>
+</div>
+

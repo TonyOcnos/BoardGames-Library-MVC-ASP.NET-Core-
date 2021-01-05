@@ -1,0 +1,56 @@
+﻿@page
+@model IndexModel
+
+
+<div class="container">
+    <div class="text-center col-12">
+        <h1 class="display-4">Boardgames Library</h1>
+        <h1>Antonio Montes</h1>
+    </div>
+    <div class="row m-4">
+        <div class="col-6 mb-2">
+            <h2 class="text-center">See library</h2> 
+            <div class="col-6 offset-3">
+                <a class="imgMenu" asp-page="/BoardGamesLibrary/BoardGameList">
+                    <img src="~/img/boardgame.png" class="img-thumbnail rounded shadow imgMenu" />
+                </a> 
+            </div>
+        </div>
+        <div class="col-6 mb-2">
+            <h2 class="text-center">See matches</h2>
+            <div class="col-6 offset-3">
+                <a class="imgMenu" asp-page="/BoardGamesLibrary/MatchList">
+                    <img id="background" src="~/img/match.png" class="img-thumbnail rounded shadow imgMenu" />
+                </a>
+            </div>
+        </div>
+        <div class="row col-12">
+            <div class="col-3 offset-5 mt-5">
+                <form method="post">
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Remove whole library</button>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Delete a game from your library</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure you want to delete the whole boardgame's library?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <input type="submit" class="btn btn-danger" value="Remove whole library" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,112 @@
+﻿@page
+@model MatchListModel
+
+
+<br />
+<div id="mainDiv" class="container row p-0 m-0">
+    <div class="col-8">
+        <h2 class="text-info">Matches List</h2>
+    </div>
+    <div class="table-responsive table-striped col-12 p-3 mt-3">
+        <form method="post">
+            @if (Model.Matches.Count() > 0)
+            {
+                <table class="table table-bordered border">
+                    <tr class="table-secondary">
+                        <th style="width:20%;">
+                            <label>Game</label>
+                        </th>
+                        <th style="width:20%;">
+                            <label asp-for="Matches.FirstOrDefault().Date"></label>
+                        </th>
+                        <th style="width:20%;">
+                            <label asp-for="Matches.FirstOrDefault().Duration"></label>
+                        </th>
+                        <th style="width:20%;">
+                            Players
+                        </th>
+                        <th style="width:20%;">
+                            Delete
+                        </th>
+                    </tr>
+                    @foreach (var item in Model.Matches)
+                    {
+                        <tr>
+                            <td class="align-middle text-center">
+                                @Model.GetBoardGameName(item.IdGameRef)
+                            </td>
+                            <td class="matchDate align-middle text-center">
+                                @Model.FixDates(item.Date)
+                            </td>
+                            <td class="align-middle text-center">
+                                @Html.DisplayFor(m => item.Duration)
+                            </td>
+                            <td class="align-middle text-center">
+                                <ul class="list-group">
+                                    @foreach (var item2 in Model.MatchRELPlayer)
+                                    {
+                                        if (item.IdMatch == item2.IdMatchRef)
+                                        {
+                                            if (item2.Winner == true)
+                                            {
+                                                <li class="list-group-item font-weight-bold" style="background-color:lightgreen">@item2.NameRef</li>
+                                            }
+                                            else
+                                            {
+                                                <li class="list-group-item">@item2.NameRef</li>
+                                            }
+                                        }
+                                    }
+                                </ul>
+                            </td>
+                            <td class="align-middle text-center">
+                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal-@item.IdMatch">Delete</button>
+                                <div class="modal fade" id="exampleModal-@item.IdMatch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Delete a game from your library</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Are you sure you want to delete the match?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-danger btn" asp-page-handler="Delete" asp-route-id="@item.IdMatch">Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+            else
+            {
+                if (@Model.BoardGame != null)
+                {
+                    <p>No matches so far for <strong>@Model.BoardGame.Name</strong></p>
+                }
+                else
+                {
+                    <p>No matches so far</p>
+                }
+            }
+        </form>
+        <div class="row">
+            <div class="col-2 offset-10">
+                <a asp-area="" asp-page="BoardGameList" class="btn btn-primary form-control text-white" style="cursor: pointer;">Back to list</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />    
+    <script src="~/js/boardGameList.js"></script>
+}
+

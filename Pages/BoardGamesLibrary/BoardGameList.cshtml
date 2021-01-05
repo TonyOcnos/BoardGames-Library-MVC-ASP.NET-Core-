@@ -1,0 +1,118 @@
+﻿@page
+@model BoardGameListModel
+
+<br />
+<div id="mainDiv" class="container row p-0 m-0">
+    <div class="col-8">
+        <h2 class="text-info">Board Games List</h2>
+    </div>
+    <div class="col-4">
+        <a class="btn btn-success form-control text-white" style="cursor: pointer;" asp-page="NewOrEditGame">Entry a new board game</a>
+    </div>
+
+    <div class="table-responsive col-12 p-3 mt-3">
+        <form method="post">
+            @if (Model.BoardGames.Count() > 0)
+            {
+                <table id="dataTable" class="table table-bordered border">
+                    <thead>
+                        <tr class="table-secondary">
+                            <th style="width:20%;">
+                                <label asp-for="BoardGames.FirstOrDefault().Name"></label>
+                            </th>
+                            <th style="width:20%;">
+                                <label asp-for="BoardGames.FirstOrDefault().Publisher"></label>
+                            </th>
+                            <th style="width:15%;">
+                                <label asp-for="BoardGames.FirstOrDefault().Language"></label>
+                            </th>
+                            <th style="width:15%;">
+                                <label asp-for="BoardGames.FirstOrDefault().Type"></label>
+                            </th>
+                            <th style="width:15%;">
+                                <label asp-for="BoardGames.FirstOrDefault().Weight"></label>
+                            </th>
+                            <th style="width:2%;">
+                                <label asp-for="BoardGames.FirstOrDefault().NPlayers"></label>
+                            </th>
+                            <th style="width:2%;">
+                                <label>Matches</label>
+                            </th>
+                            <th colspan="2" style="text-align:center;">Action</th>
+                            <th>Match</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.BoardGames)
+                        {
+                            <tr class="rowResult">
+                                <td class="gameName">
+                                    <a asp-area="" asp-page="MatchList" asp-route-id="@item.IdGame">@Html.DisplayFor(m => item.Name)</a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.Publisher)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.Language)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.Type)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.Weight)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(m => item.NPlayers)
+                                </td>
+                                <td class="matchesNumber">
+                                    @Model.CountMatches(item.IdGame)
+                                </td>
+                                <td>
+                                    <a asp-page="NewOrEditGame" asp-route-id="@item.IdGame" class="btn btn-primary btn-sm">Edit</a>
+                                </td>
+                                <td class="modalEntry">
+                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal-@item.IdGame">Delete</button>
+                                    <div class="modal fade" id="exampleModal-@item.IdGame" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Delete a game from your library</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Are you sure you want to delete the element definetely? <br />
+                                                    This will deleted all related matches...
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-danger btn" asp-page-handler="Delete" asp-route-id="@item.IdGame">Delete</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a asp-page="NewOrEditMatch" asp-route-id="@item.IdGame" class="btn btn-success btn-sm">Add</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>No games in your library</p>
+            }
+        </form>
+    </div>
+</div>
+
+<div id="chart"></div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/boardGameList.js"></script>
+}
+
